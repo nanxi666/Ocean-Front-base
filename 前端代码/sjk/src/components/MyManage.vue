@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            &nbsp;&nbsp; 哈尔滨工程大学外卖平台---后台管理
+            &nbsp;&nbsp; 海洋锋(Ocean Front)观测平台
         </div>
         <div class="body">
             <div class="liner">
@@ -9,106 +9,108 @@
                     active-text-color="#ffd04b" @select="handleselect">
 
                     <el-menu-item index="1">
-                        <i class="el-icon-s-shop"></i>
-                        <span slot="title">店铺管理</span>
+                        <i class="el-icon-map-location"></i>
+                        <span slot="title">地图查看</span>
                     </el-menu-item>
 
                     <el-menu-item index="2">
-                        <i class="el-icon-s-custom"></i>
-                        <span slot="title">服务员管理</span>
+                        <i class="el-icon-data-board"></i>
+                        <span slot="title">数据板</span>
                     </el-menu-item>
-
+                    <!-- 
                     <el-menu-item index="3">
-                        <i class="el-icon-s-check"></i>
-                        <span slot="title">送餐员管理</span>
-                    </el-menu-item>
+                        <i class="el-icon-cpu"></i>
+                        <span slot="title">海洋锋识别</span>
+                    </el-menu-item> -->
 
 
                     <el-submenu>
                         <template slot="title">
-                            <i class="el-icon-s-promotion"></i>
-                            <span>物流管理</span>
+                            <i class="el-icon-s-home"></i>
+                            <span>个人中心</span>
                         </template>
                         <el-menu-item-group>
 
-                            <el-menu-item index="4">已完成</el-menu-item>
-                            <el-menu-item index="5">进行中</el-menu-item>
+                            <el-menu-item index="4">个人信息</el-menu-item>
+                            <el-menu-item index="5">修改密码</el-menu-item>
                         </el-menu-item-group>
 
-                    </el-submenu>
-
-
-                    <el-submenu index="100">
-                        <template slot="title">
-                            <i class="el-icon-s-order"></i>
-                            <span>订单管理</span>
-                        </template>
-                        <el-menu-item-group>
-
-                            <el-menu-item index="6">已完成订单</el-menu-item>
-                            <el-menu-item index="7">已发货订单</el-menu-item>
-                            <el-menu-item index="8">未发货订单</el-menu-item>
-                        </el-menu-item-group>
 
                     </el-submenu>
+                    <!-- 
+                    <el-menu-item index="6">
+                        <i class="el-icon-s-custom"></i>
+                        <span slot="title">用户中心</span>
+                    </el-menu-item> -->
 
                 </el-menu>
+
             </div>
+
             <div class="main">
-                <div id="manageshop" v-show="active == 1">
-                    <manageshop></manageshop>
+                <div id="mapshow" v-show="active == 1">
+                    <mapshow></mapshow>
                 </div>
 
-                <div id="manageserver" v-show="active == 2">
-                    <manageserver></manageserver>
+                <div id="databoard" v-show="active == 2">
+                    <databoard></databoard>
                 </div>
 
                 <div id="managedispatcher" v-show="active == 3">
                     <managedispatcher></managedispatcher>
                 </div>
-
-
-                <div id="wuliuended" v-show="active == 4">
-                    <wuliuended></wuliuended>
+                <div id="indimsg" v-show="active == 4">
+                    <indimsg></indimsg>
+                </div>
+                <div id="changepwd" v-show="active == 5">
+                    <changepwd></changepwd>
                 </div>
 
-                <div id="wuliuunended" v-show="active == 5">
-                    <wuliuunended></wuliuunended>
-                </div>
-                <div id="ordersended" v-show="active == 6">
-                    <ordersended></ordersended>
-                </div>
-                <div id="ordersending" v-show="active == 7">
+
+                <!-- <div id="myuser" v-show="active == 6">
+                    <myuser></myuser>
+                </div> -->
+                <!-- <div id="ordersending" v-show="active == 7">
                     <ordersending></ordersending>
                 </div>
 
                 <div id="orderunsend" v-show="active == 8">
                     <orderunsend></orderunsend>
-                </div>
+                </div> -->
             </div>
+
+
+
         </div>
+
+
     </div>
 </template>
 
+
 <script>
-import manageshop from '@/components/ManageShop.vue'
-import manageserver from '@/components/ManageServer.vue'
-import managedispatcher from '@/components/ManageDispatcher.vue'
-import wuliuended from '@/components/ManageWuliu/WuliuEnded.vue'
-import wuliuunended from '@/components/ManageWuliu/WuliuUnended.vue'
-import ordersended from '@/components/ManageOrder/BeSended.vue'
-import ordersending from '@/components/ManageOrder/BeSending.vue'
-import orderunsend from '@/components/ManageOrder/UnSend.vue'
+import mapshow from '@/components/MapShow.vue'
+import databoard from '@/components/DataBoard.vue'
+
+// import managedispatcher from '@/components/ManageDispatcher.vue'
+// import myuser from '@/components/MyUser.vue'
+// import wuliuended from '@/components/ManageWuliu/WuliuEnded.vue'
+// import wuliuunended from '@/components/ManageWuliu/WuliuUnended.vue'
+// import ordersended from '@/components/ManageOrder/BeSended.vue'
+// import ordersending from '@/components/ManageOrder/BeSending.vue'
+// import orderunsend from '@/components/ManageOrder/UnSend.vue'
+
+import indimsg from '@/components/UserMsg/IndiMsg.vue'
+import changepwd from '@/components/UserMsg/ChPwd.vue'
 export default {
     components: {
-        manageshop: manageshop,
-        manageserver: manageserver,
-        managedispatcher: managedispatcher,
-        wuliuended: wuliuended,
-        wuliuunended: wuliuunended,
-        ordersended: ordersended,
-        ordersending: ordersending,
-        orderunsend: orderunsend
+        mapshow: mapshow,
+        databoard: databoard,
+        // managedispatcher: managedispatcher,
+        indimsg: indimsg,
+        changepwd: changepwd,
+        // wuliuended: wuliuended,
+        // myuser: myuser,
     },
     data() {
         return {

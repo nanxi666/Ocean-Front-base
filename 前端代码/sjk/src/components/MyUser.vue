@@ -77,7 +77,7 @@
                     <userunsend></userunsend>
                 </div>
 
-                <div id="indimag" v-show="active == 6">
+                <div id="indimsg" v-show="active == 6">
                     <indimsg></indimsg>
                 </div>
 

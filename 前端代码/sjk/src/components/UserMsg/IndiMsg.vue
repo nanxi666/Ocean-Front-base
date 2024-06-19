@@ -9,6 +9,10 @@
                     <span>{{ form.user_name }}</span>
                     <!-- <el-input v-model="form.user_name"></el-input> -->
                 </el-form-item>
+                <el-form-item label="用户类型：" prop="dispatcher_role">
+                    <span>{{ form.role }}</span>
+                    <!-- <el-input v-model="form.mail"></el-input> -->
+                </el-form-item>
                 <el-form-item label="真实姓名：" prop="dispatcher_name">
                     <span>{{ form.real_name }}</span>
                     <!-- <el-input v-model="form.real_name"></el-input> -->
@@ -29,6 +33,7 @@
                     <span>{{ form.mail }}</span>
                     <!-- <el-input v-model="form.mail"></el-input> -->
                 </el-form-item>
+
             </el-form>
         </div>
     </div>
@@ -48,13 +53,13 @@ export default {
                 mail: '',
                 phone: '',
                 user_name: '',
+                role: ''
             }
         }
     },
     methods: {
         getdata() {
             this.$axios.get("/api/user/usermsg").then((res) => {
-                console.log(res.data);
                 if (res.data.status == 200) {
                     this.form.age = res.data.data.age;
                     this.form.mail = res.data.data.mail;
@@ -62,6 +67,8 @@ export default {
                     this.form.real_name = res.data.data.real_name;
                     this.form.sex = res.data.data.sex;
                     this.form.user_name = res.data.data.user_name;
+                    this.form.role = res.data.role == "0" ? "管理员" : "普通用户"
+
                 }
             })
         }

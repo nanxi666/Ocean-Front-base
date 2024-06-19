@@ -10,11 +10,12 @@
                 </el-form-item>
 
                 <el-form-item label="新密码：" prop="new_pwd">
-                    <el-input v-model="form.new_pwd" type="password" show-password></el-input>
+                    <el-input v-model="form.new_pwd" type="password" show-password
+                        placeholder="密码(包含大小写字母、数字，长度在6-12之间)"></el-input>
                 </el-form-item>
 
-                <el-form-item label="确认密码：" prop="check_pwd">
-                    <el-input v-model="form.check_pwd" type="password" show-password></el-input>
+                <el-form-item label="确认密码：" prop="confirm_pwd">
+                    <el-input v-model="form.confirm_pwd" type="password" show-password></el-input>
                 </el-form-item>
                 <el-form-item style="text-align:center;">
                     <el-button type="primary" @click="change()">确定</el-button>
@@ -30,16 +31,32 @@ export default {
         this.getdata()
     },
     data() {
+        var checkPassword = (rule, value, cb) => {
+            const regPassword = /(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{6,12}$/;
+            if (regPassword.test(value)) {
+
+                return cb()
+            }
+            cb(new Error('密码应包含大写字母、小写字母、数字，长度在6-12位之间'))
+        };
+        var check_confirm_password = (rule, value, cb) => {
+            var t = this.form.new_pwd && value && this.form.new_pwd !== value;
+
+            if (!t) {
+                return cb()
+            }
+            cb(new Error('两次密码不一致'))
+        };
         return {
             form: {
                 old_pwd: '',
                 new_pwd: '',
-                check_pwd: '',
+                confirm_pwd: '',
             },
             form_rules: {
                 old_pwd: [{ required: true, message: "必填", trigger: 'blur' }],
-                new_pwd: [{ required: true, message: "必填", trigger: 'blur' }],
-                check_pwd: [{ required: true, message: "必填", trigger: 'blur' }]
+                new_pwd: [{ required: true, message: "必填", trigger: 'blur' }, { validator: checkPassword, trigger: 'blur' }],
+                confirm_pwd: [{ required: true, message: "必填", trigger: 'blur' }, { validator: check_confirm_password, trigger: 'blur' }]
             }
         }
     },
@@ -49,13 +66,14 @@ export default {
                 if (!valid)
                     return;
                 else //验证通过再发送请求
-                    if (this.form.check_pwd == this.form.new_pwd) {
+                    if (this.form.confirm_pwd == this.form.new_pwd) {
                         this.$axios.post("/api/user/pwd_chg", this.form).then((res) => {
                             if (res.data.status == 200) {
                                 this.$message({
                                     message: res.data.msg,
                                     type: "success"
                                 })
+                                this.form = {};
                             } else {
                                 this.$message({
                                     message: res.data.msg,
